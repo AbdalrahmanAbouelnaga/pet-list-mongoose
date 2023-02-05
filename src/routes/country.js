@@ -1,11 +1,9 @@
-import { Router } from "express";
-import { CountryModel, ICountry } from "../models/country";
-
-const routes = Router();
+const CountryModel = require('../models/country')
+const routes = require('express').Router();
 
 routes.get("/", async (req, res) => {
   try {
-    const countries: ICountry[] = await CountryModel.find().exec();
+    const countries = await CountryModel.find().exec();
     return res.json(countries);
   } catch (error) {
     console.error(error);
@@ -15,7 +13,7 @@ routes.get("/", async (req, res) => {
 
 routes.post("/", async (req, res) => {
   try {
-    const country: ICountry = req.body;
+    const country = req.body;
 
     const countryExists = await CountryModel.findOne({
       name: country.name,
@@ -35,4 +33,4 @@ routes.post("/", async (req, res) => {
   }
 });
 
-export default routes;
+module.exports = routes
