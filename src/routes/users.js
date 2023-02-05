@@ -21,7 +21,7 @@ const upload = multer({ storage: storage });
 
 
 
-userRouter.post('/signup/',upload.single('image'),async function(req,res,next){
+router.post('/signup/',upload.single('image'),async function(req,res,next){
   const data = req.body
   User.findOne({$or: [
     { username: req.body.username },
@@ -45,7 +45,7 @@ userRouter.post('/signup/',upload.single('image'),async function(req,res,next){
       })
 })
 
-userRouter.post('/login/',async function(req,res,next){
+router.post('/login/',async function(req,res,next){
   const username = req.body.username
   const password = req.body.password
   console.log(username)
@@ -63,19 +63,19 @@ userRouter.post('/login/',async function(req,res,next){
             })
 })
 
-userRouter.get('/user/',validateToken,function(req,res){
+router.get('/user/',validateToken,function(req,res){
     const user = req.user
     return res.json(user)
 })
 
 
-userRouter.post('/logout/',validateToken,async function(req,res){
+router.post('/logout/',validateToken,async function(req,res){
     const auth_token = req.headers["authorization"].split(' ')[1]
     const token_instance = await Token.findOne({token:auth_token})
     token_instance.delete()
     return res.sendStatus(200)
 })
-userRouter.post('/logout/all/',validateToken,async function(req,res){
+router.post('/logout/all/',validateToken,async function(req,res){
   const user  = req.user
   const tokens = await Token.find({user_id:user.id})
   tokens.forEach(token=>token.delete())
