@@ -19,7 +19,8 @@ database.once("open", () => console.log("✅ mongodb connected successfully"));
 
 
 const express = require('express')
-const countryRoutes = require('./routes/country')
+const userRoutes = require('./routes/users')
+const petRoutes = require('./routes/pets')
 
 const app = express();
 const port = process.env.PORT || 3333;
@@ -29,10 +30,11 @@ app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
 
 app.get("/", async (req, res) => {
-  res.json({ message: "Please visit /countries to view all the countries" });
+  res.json({ message: "Sign up at /signup" });
 });
 
-app.use("/countries", countryRoutes);
+app.use('/',userRoutes)
+app.use('/',petRoutes)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
