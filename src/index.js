@@ -28,7 +28,8 @@ const port = process.env.PORT || 3333;
 app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
-
+app.use(express.static(path.join(__dirname, 'uploads')));
+app.get("/", express.static(path.join(__dirname, "./uploads")));
 app.get("/", async (req, res) => {
   res.json({ message: "Sign up at /signup" });
 });
